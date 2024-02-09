@@ -11,10 +11,10 @@ router.post("/admin/login", async (req, res) => {
   const result = await loginAdmin(username, password);
   if (result.sucess) {
     const accessToken = jwt.sign({ user: username }, secretKey, {
-      expiresIn: "1h",
+      expiresIn: "1m",
     });
     const refreshToken = jwt.sign({ user: username }, secretKey, {
-      expiresIn: "1d",
+      expiresIn: "30m",
     });
     //save token in cookie
     //res.cookie("authcookie", token, { httpOnly: true });

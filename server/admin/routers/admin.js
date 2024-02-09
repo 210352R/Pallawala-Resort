@@ -22,9 +22,11 @@ router.get("/admin/authenticate", verifyAdmin, (req, res) => {
     console.log("Come to the server");
     console.log(req.user);
     console.log(req.accessToken);
-    res
-      .status(200)
-      .json({ success: true, message: "Admin authenticated successfully!" });
+    res.status(200).json({
+      success: true,
+      message: "Admin authenticated successfully!",
+      token: req.accessToken,
+    });
   } catch (error) {
     console.log("Error authenticating admin:", error);
     res

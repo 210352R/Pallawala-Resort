@@ -1,17 +1,43 @@
 // LoginForm.js
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import "../styles/log_screen.css";
+import axiosInstance from "./AxiosInstance";
+import { handleHttpError } from "./HTTP_Status_handler";
 
 const LoginScreen = () => {
+  const navigate = useNavigate();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
+  useEffect(() => {
+    authUser();
+  }, []);
+
+  const authUser = async () => {
+    try {
+      const result = await axiosInstance.get(
+        "http://localhost:3001/admin/authenticate"
+      );
+      console.log(result);
+      if (result.status === 200) {
+        navigate("/admin/dashboard");
+      }
+    } catch (error) {
+      console.log("Error authenticating user:", error);
+      handleHttpError(error, () => alert("Login First"));
+      console.log("Error authenticating user:", error);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:3001/admin/login", {
+      const response = await fetch(`http://localhost:3001/admin/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -35,6 +61,8 @@ const LoginScreen = () => {
       localStorage.setItem("refreshToken", refreshToken);
 
       console.log("Login successful:", { accessToken, refreshToken });
+      alert("Login Successful");
+      navigate("/admin/dashboard");
       // Handle successful login (redirect, display message, etc.)
     } catch (error) {
       setError("Invalid username or password !");

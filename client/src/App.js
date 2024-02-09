@@ -16,6 +16,7 @@ import MapPage from "./MapPage";
 import CottageImage from "./Components/CottageImage";
 import FlipCard from "./Components/FlipCard";
 import LoginScreen from "./admin/Login_Screen";
+import AdminDashboard from "./admin/Admin_Dashboard";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           {/* //admin side routes  */}
 
           <Route path="/admin/login" element={<LoginScreen />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
 
           {/* Add more routes as needed */}
         </Routes>
